@@ -25,11 +25,13 @@ const timer = (deadline) => {
         timerMinutes.textContent = getTime.minutes;
         timerSeconds.textContent = getTime.seconds;
 
-        if (getTime.timeRemaining > 0) {
-            setTimeout(updateClock, 1000);
-        }
+        // if (getTime.timeRemaining > 0) {
+        //     setTimeout(updateClock, 1000);
+        // }
     }
-    updateClock();
+
+    setInterval(updateClock, 1000);
+    // updateClock();
 }
 
 export default timer;

@@ -1,12 +1,29 @@
 const slider = () => {
     const sliderBlock = document.querySelector('.portfolio-content');
     const slides = document.querySelectorAll('.portfolio-item');
-    const dots = document.querySelectorAll('.dot');
+    let dots = document.querySelectorAll('.dot');
+    const dotsWrapper = document.querySelector('.portfolio-dots');
 
     const timeInterval = 2000;
 
     let currentSlide = 0;
     let interval;
+
+    // Функция для создания точек под количество слайдов
+    const generateDots = () => {
+        dotsWrapper.innerHTML = '';
+        slides.forEach((_, index) => {
+            const dot = document.createElement('li');
+            dot.className = 'dot';
+            if (index === 0) {
+                dot.classList.add('dot-active');
+            }
+            dotsWrapper.appendChild(dot);
+        });
+        dots = document.querySelectorAll('.dot');
+    };
+
+    generateDots(); // Вызов генерации точек
 
     const prevSlide = (elems, index, strClass) => {
         elems[index].classList.remove(strClass);
@@ -16,6 +33,7 @@ const slider = () => {
         elems[index].classList.add(strClass);
     }
 
+    // Автоматическая смена слайдов
     const autoSlide = () => {
         prevSlide(slides, currentSlide, 'portfolio-item-active');
         prevSlide(dots, currentSlide, 'dot-active');
@@ -29,14 +47,17 @@ const slider = () => {
         nextSlide(dots, currentSlide, 'dot-active');
     }
 
+    // Запуск автоперелистывания
     const startSlide = (timer = 1500) => {
         interval = setInterval(autoSlide, timer)
     }
 
+    // Остановка автоперелистывания
     const stopSlide = () => {
         clearInterval(interval);
     }
 
+    // Обработка кликов по кнопкам и точкам
     sliderBlock.addEventListener('click', (e) => {
         e.preventDefault();
 
@@ -71,6 +92,7 @@ const slider = () => {
         nextSlide(dots, currentSlide, 'dot-active');
     })
 
+    // При наведении мыши — остановка автоперелистывания
     sliderBlock.addEventListener('mouseenter', (e) => {
         if (e.target.matches('.dot, .portfolio-btn')) {
             stopSlide();
